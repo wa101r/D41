@@ -1,0 +1,11 @@
+/* Theme: Classic Christmas - Red/Green */
+:root {
+    --bg-image: url('bg-classic.jpg');
+    --bg-filter: brightness(0.9) saturate(1.15) contrast(1.05);
+    --text-glow: rgba(255, 100, 100, 0.3);
+    --logo-glow: rgba(255, 180, 100, 0.4);
+    --light-color-1: #FF0000;
+    --light-color-2: #00FF00;
+    --light-color-3: #FFD700;
+    --light-color-4: #FF6347;
+}

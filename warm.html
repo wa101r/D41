@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D 41 Studio - Warm Christmas Party 🎉</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Merienda:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #1a0a00;
+        }
+
+        /* Background with Bokeh Effect */
+        .background {
+            position: fixed;
+            inset: 0;
+            background: url('bg-warm.jpg') no-repeat center center;
+            background-size: cover;
+            filter: brightness(0.85) saturate(1.2);
+            z-index: 0;
+        }
+
+        /* Floating Bokeh Particles */
+        .bokeh {
+            position: fixed;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bokeh-particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: bokeh-float 8s ease-in-out infinite;
+        }
+
+        @keyframes bokeh-float {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.6;
+            }
+
+            50% {
+                transform: translateY(-30px) scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Warm Glow Overlay */
+        .warm-glow {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at center,
+                    rgba(255, 150, 50, 0.15) 0%,
+                    transparent 60%);
+            z-index: 3;
+            animation: glow-pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Party Lights */
+        .light-rope {
+            position: fixed;
+            top: -15px;
+            left: 0;
+            width: 100%;
+            z-index: 30;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .light-bulb {
+            position: relative;
+            width: 40px;
+            height: 60px;
+        }
+
+        .light-bulb::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -20px;
+            width: 40px;
+            height: 20px;
+            border-bottom: 2px solid #333;
+            border-radius: 50%;
+        }
+
+        .light-bulb::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: #333;
+            border-radius: 2px;
+        }
+
+        .bulb {
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 22px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+
+        .light-bulb:nth-child(4n+1) .bulb {
+            background: #FF00FF;
+            animation: flash 2.1s infinite;
+        }
+
+        .light-bulb:nth-child(4n+2) .bulb {
+            background: #00FFFF;
+            animation: flash 2.5s infinite 0.3s;
+        }
+
+        .light-bulb:nth-child(4n+3) .bulb {
+            background: #00FF00;
+            animation: flash 2.3s infinite 0.6s;
+        }
+
+        .light-bulb:nth-child(4n+4) .bulb {
+            background: #FFFF00;
+            animation: flash 2.8s infinite 0.9s;
+        }
+
+        @keyframes flash {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                box-shadow: 0 0 5px currentColor;
+            }
+
+            50% {
+                opacity: 1;
+                box-shadow: 0 0 25px currentColor, 0 0 50px currentColor;
+            }
+        }
+
+        /* Confetti Effect */
+        .confetti {
+            position: fixed;
+            inset: 0;
+            z-index: 8;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -20px;
+            animation: confetti-fall linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-10px) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(80vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 20;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .logo {
+            max-width: 400px;
+            height: auto;
+            filter: drop-shadow(0 0 30px rgba(255, 200, 100, 0.6));
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .greeting h1 {
+            font-family: 'Merienda', cursive;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 180, 50, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .greeting h2 {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                max-width: 250px;
+            }
+
+            .greeting h1 {
+                font-size: 2.5rem;
+            }
+
+            .greeting h2 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+    <div class="warm-glow"></div>
+    <div class="bokeh" id="bokeh"></div>
+    <div class="confetti" id="confetti"></div>
+    <div class="light-rope" id="lightRope"></div>
+
+    <div class="content">
+        <div class="logo-container">
+            <img src="logo.png" alt="D 41 Studio" class="logo">
+        </div>
+        <div class="greeting">
+            <h1>Merry Christmas</h1>
+            <h2>& Happy New Year</h2>
+        </div>
+    </div>
+
+    <script>
+        // Generate Lights
+        const rope = document.getElementById('lightRope');
+        const count = Math.ceil(window.innerWidth / 40) + 2;
+        for (let i = 0; i < count; i++) {
+            const light = document.createElement('div');
+            light.className = 'light-bulb';
+            light.innerHTML = '<div class="bulb"></div>';
+            rope.appendChild(light);
+        }
+
+        // Generate Bokeh
+        const bokeh = document.getElementById('bokeh');
+        const colors = ['#FFD700', '#FFA500', '#FF8C00', '#FF6347', '#FF69B4'];
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'bokeh-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.width = particle.style.height = (20 + Math.random() * 40) + 'px';
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.opacity = 0.2 + Math.random() * 0.3;
+            particle.style.filter = 'blur(' + (5 + Math.random() * 10) + 'px)';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+            bokeh.appendChild(particle);
+        }
+
+        // Generate Confetti
+        const confetti = document.getElementById('confetti');
+        const confettiColors = ['#FFD700', '#FF69B4', '#00FFFF', '#FF6347', '#7CFC00'];
+        for (let i = 0; i < 50; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'confetti-piece';
+            piece.style.left = Math.random() * 100 + '%';
+            piece.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+            piece.style.animationDuration = (5 + Math.random() * 5) + 's';
+            piece.style.animationDelay = Math.random() * 5 + 's';
+            piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            confetti.appendChild(piece);
+        }
+    </script>
+</body>
+
+</html>

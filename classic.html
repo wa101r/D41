@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D 41 Studio - Classic Christmas 🎄</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Merienda:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #1a0505;
+        }
+
+        /* Background */
+        .background {
+            position: fixed;
+            inset: 0;
+            background: url('bg-classic.jpg') no-repeat center center;
+            background-size: cover;
+            filter: brightness(0.85) saturate(1.2);
+            z-index: 0;
+        }
+
+        /* Fireplace Glow */
+        .fireplace-glow {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: radial-gradient(ellipse at 50% 100%,
+                    rgba(255, 100, 30, 0.2) 0%,
+                    rgba(255, 80, 20, 0.1) 30%,
+                    transparent 60%);
+            z-index: 2;
+            animation: fire-flicker 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fire-flicker {
+
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+
+            25% {
+                opacity: 0.9;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            75% {
+                opacity: 1;
+            }
+        }
+
+        /* Fire Sparks */
+        .sparks {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            width: 300px;
+            height: 200px;
+            transform: translateX(-50%);
+            z-index: 4;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .spark {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #FF6600;
+            border-radius: 50%;
+            bottom: 0;
+            animation: spark-rise 3s ease-out infinite;
+        }
+
+        @keyframes spark-rise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-200px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Classic Lights - Traditional Bulbs */
+        .classic-lights {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 30;
+            display: flex;
+            justify-content: space-around;
+            padding-top: 5px;
+            pointer-events: none;
+        }
+
+        .classic-bulb {
+            position: relative;
+            width: 20px;
+            height: 35px;
+        }
+
+        .classic-bulb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 8px;
+            background: #228B22;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .classic-bulb::after {
+            content: '';
+            position: absolute;
+            top: 7px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 25px;
+            border-radius: 50% 50% 50% 50% / 30% 30% 70% 70%;
+        }
+
+        .classic-bulb:nth-child(4n+1)::after {
+            background: #FF0000;
+            animation: glow-red 1.5s infinite;
+        }
+
+        .classic-bulb:nth-child(4n+2)::after {
+            background: #00FF00;
+            animation: glow-green 1.5s infinite 0.4s;
+        }
+
+        .classic-bulb:nth-child(4n+3)::after {
+            background: #FFD700;
+            animation: glow-gold 1.5s infinite 0.8s;
+        }
+
+        .classic-bulb:nth-child(4n+4)::after {
+            background: #0066FF;
+            animation: glow-blue 1.5s infinite 1.2s;
+        }
+
+        @keyframes glow-red {
+
+            0%,
+            100% {
+                box-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000;
+                opacity: 0.6;
+            }
+
+            50% {
+                box-shadow: 0 0 20px #FF0000, 0 0 40px #FF0000;
+                opacity: 1;
+            }
+        }
+
+        @keyframes glow-green {
+
+            0%,
+            100% {
+                box-shadow: 0 0 10px #00FF00, 0 0 20px #00FF00;
+                opacity: 0.6;
+            }
+
+            50% {
+                box-shadow: 0 0 20px #00FF00, 0 0 40px #00FF00;
+                opacity: 1;
+            }
+        }
+
+        @keyframes glow-gold {
+
+            0%,
+            100% {
+                box-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
+                opacity: 0.6;
+            }
+
+            50% {
+                box-shadow: 0 0 20px #FFD700, 0 0 40px #FFD700;
+                opacity: 1;
+            }
+        }
+
+        @keyframes glow-blue {
+
+            0%,
+            100% {
+                box-shadow: 0 0 10px #0066FF, 0 0 20px #0066FF;
+                opacity: 0.6;
+            }
+
+            50% {
+                box-shadow: 0 0 20px #0066FF, 0 0 40px #0066FF;
+                opacity: 1;
+            }
+        }
+
+        /* Gentle Snow with Glow */
+        .snow-container {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 5px white;
+            /* Glow added */
+            animation: gentle-snow linear infinite;
+        }
+
+        @keyframes gentle-snow {
+            0% {
+                transform: translateY(-10px) translateX(0);
+            }
+
+            50% {
+                transform: translateY(50vh) translateX(20px);
+            }
+
+            100% {
+                transform: translateY(100vh) translateX(0);
+            }
+        }
+
+        /* Ornaments floating */
+        .ornaments {
+            position: fixed;
+            inset: 0;
+            z-index: 6;
+            pointer-events: none;
+        }
+
+        .ornament {
+            position: absolute;
+            font-size: 2rem;
+            animation: ornament-swing 4s ease-in-out infinite;
+        }
+
+        @keyframes ornament-swing {
+
+            0%,
+            100% {
+                transform: rotate(-5deg);
+            }
+
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 20;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .logo {
+            max-width: 400px;
+            height: auto;
+            filter: drop-shadow(0 0 30px rgba(255, 150, 50, 0.5));
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .greeting h1 {
+            font-family: 'Merienda', cursive;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 100, 50, 0.4), 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .greeting h2 {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                max-width: 250px;
+            }
+
+            .greeting h1 {
+                font-size: 2.5rem;
+            }
+
+            .greeting h2 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+    <div class="fireplace-glow"></div>
+    <div class="sparks" id="sparks"></div>
+    <div class="ornaments" id="ornaments"></div>
+    <div class="snow-container" id="snow"></div>
+    <div class="classic-lights" id="classicLights"></div>
+
+    <div class="content">
+        <div class="logo-container">
+            <img src="logo.png" alt="D 41 Studio" class="logo">
+        </div>
+        <div class="greeting">
+            <h1>Merry Christmas</h1>
+            <h2>& Happy New Year</h2>
+        </div>
+    </div>
+
+    <script>
+        // Generate Classic Lights
+        const lights = document.getElementById('classicLights');
+        const lightCount = Math.ceil(window.innerWidth / 35);
+        for (let i = 0; i < lightCount; i++) {
+            const bulb = document.createElement('div');
+            bulb.className = 'classic-bulb';
+            lights.appendChild(bulb);
+        }
+
+        // Generate Fire Sparks
+        const sparks = document.getElementById('sparks');
+        for (let i = 0; i < 20; i++) {
+            const spark = document.createElement('div');
+            spark.className = 'spark';
+            spark.style.left = (30 + Math.random() * 40) + '%';
+            spark.style.animationDuration = (2 + Math.random() * 2) + 's';
+            spark.style.animationDelay = Math.random() * 3 + 's';
+            spark.style.background = ['#FF6600', '#FF9900', '#FFCC00'][Math.floor(Math.random() * 3)];
+            sparks.appendChild(spark);
+        }
+
+        // Generate Snowflakes
+        const snow = document.getElementById('snow');
+        for (let i = 0; i < 40; i++) {
+            const flake = document.createElement('div');
+            flake.className = 'snowflake';
+            flake.textContent = '•';
+            flake.style.left = Math.random() * 100 + '%';
+            flake.style.fontSize = (0.3 + Math.random() * 0.5) + 'rem';
+            flake.style.animationDuration = (8 + Math.random() * 6) + 's';
+            flake.style.animationDelay = Math.random() * 5 + 's';
+            snow.appendChild(flake);
+        }
+
+        // Generate Ornaments
+        const ornaments = document.getElementById('ornaments');
+        const ornamentEmojis = ['🎄', '⭐', '🔔', '🎁', '🎀'];
+        for (let i = 0; i < 8; i++) {
+            const ornament = document.createElement('div');
+            ornament.className = 'ornament';
+            ornament.textContent = ornamentEmojis[Math.floor(Math.random() * ornamentEmojis.length)];
+            ornament.style.left = (5 + Math.random() * 90) + '%';
+            ornament.style.top = (10 + Math.random() * 80) + '%';
+            ornament.style.animationDelay = Math.random() * 4 + 's';
+            ornament.style.opacity = 0.3 + Math.random() * 0.4;
+            ornaments.appendChild(ornament);
+        }
+    </script>
+</body>
+
+</html>

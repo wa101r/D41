@@ -1,0 +1,11 @@
+/* Theme: Winter Wonderland - Blue/Icy */
+:root {
+    --bg-image: url('bg-winter.jpg');
+    --bg-filter: brightness(0.85) saturate(1.2) contrast(1.1);
+    --text-glow: rgba(150, 200, 255, 0.4);
+    --logo-glow: rgba(180, 220, 255, 0.5);
+    --light-color-1: #00BFFF;
+    --light-color-2: #E0FFFF;
+    --light-color-3: #87CEEB;
+    --light-color-4: #ADD8E6;
+}

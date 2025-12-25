@@ -1,0 +1,11 @@
+/* Theme: Warm Party - Gold/Bokeh */
+:root {
+    --bg-image: url('bg-warm.jpg');
+    --bg-filter: contrast(1.1) brightness(0.9) saturate(1.1);
+    --text-glow: rgba(255, 200, 50, 0.3);
+    --logo-glow: rgba(255, 220, 150, 0.4);
+    --light-color-1: #FF00FF;
+    --light-color-2: #00FFFF;
+    --light-color-3: #00FF00;
+    --light-color-4: #FFFF00;
+}

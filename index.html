@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Magic | Premium Theme Experience</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merienda:wght@400;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body data-theme="winter">
+
+    <!-- Background Layers (Images) -->
+    <div class="bg-layer bg-winter"></div>
+    <div class="bg-layer bg-classic"></div>
+    <div class="bg-layer bg-warm"></div>
+
+    <!-- Background Video Layer -->
+    <video id="bgVideo" class="bg-video" loop muted playsinline></video>
+
+    <!-- Video Dark Overlay -->
+    <div class="video-overlay"></div>
+
+    <!-- Transition Overlay for Cinematic Effect -->
+    <div class="transition-overlay"></div>
+
+    <!-- Advanced Snowfall Canvas -->
+    <canvas id="snowCanvas"></canvas>
+
+    <!-- Christmas Lights Effect (Top) -->
+    <div class="christmas-lights" id="christmasLights"></div>
+    <!-- Christmas Lights Effect (Bottom) -->
+    <div class="christmas-lights bottom" id="christmasLightsBottom"></div>
+
+    <!-- Additional Effects -->
+    <div class="effect-stars" id="effectStars"></div>
+    <div class="effect-confetti" id="effectConfetti"></div>
+    <div class="effect-embers" id="effectEmbers"></div>
+    <div class="effect-colorshift" id="effectColorshift"></div>
+    <div class="effect-frost" id="effectFrost"></div>
+
+    <!-- Main Content -->
+    <main class="glass-container">
+        <header class="content-header">
+            <img src="logo.png" alt="D 41 Studio" class="logo">
+            <h1 class="greeting-text">Merry Christmas</h1>
+            <h2 class="sub-greeting">And a Happy New Year</h2>
+            <!-- Message Removed -->
+        </header>
+
+    </main>
+
+    <!-- Split Theme Controls -->
+    <nav class="theme-controls">
+        <!-- Background Switcher -->
+        <div class="control-group">
+            <span class="group-label">Scene</span>
+            <div class="btn-row">
+                <button class="theme-btn" data-set-bg="winter" aria-label="Winter Scene">
+                    <i class="fa-solid fa-mountain"></i>
+                </button>
+                <button class="theme-btn" data-set-bg="classic" aria-label="Classic Scene">
+                    <i class="fa-solid fa-tree"></i>
+                </button>
+                <button class="theme-btn" data-set-bg="warm" aria-label="Warm Scene">
+                    <i class="fa-solid fa-mug-hot"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Motion Switcher (Image/Video) -->
+        <div class="control-group">
+            <span class="group-label">Motion</span>
+            <div class="btn-row">
+                <button class="theme-btn active" data-set-motion="image" aria-label="Static Image">
+                    <i class="fa-regular fa-image"></i>
+                </button>
+                <button class="theme-btn" data-set-motion="video" aria-label="Loop Video">
+                    <i class="fa-solid fa-video"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Effect Switcher -->
+        <div class="control-group">
+            <span class="group-label">Magic</span>
+            <div class="btn-row">
+                <button class="theme-btn" data-set-effect="winter" aria-label="Ice Snow">
+                    <i class="fa-regular fa-snowflake"></i>
+                </button>
+                <button class="theme-btn" data-set-effect="classic" aria-label="Soft Fluff">
+                    <i class="fa-solid fa-feather"></i>
+                </button>
+                <button class="theme-btn" data-set-effect="warm" aria-label="Golden Bokeh">
+                    <i class="fa-solid fa-star"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Lights Toggle -->
+        <div class="control-group">
+            <span class="group-label">Lights</span>
+            <div class="btn-row">
+                <button class="theme-btn" data-set-lights="on" aria-label="Lights On">
+                    <i class="fa-solid fa-lightbulb"></i>
+                </button>
+                <button class="theme-btn active" data-set-lights="off" aria-label="Lights Off">
+                    <i class="fa-regular fa-lightbulb"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Extra Effects Toggles -->
+        <div class="control-group">
+            <span class="group-label">FX</span>
+            <div class="btn-row">
+                <button class="theme-btn" data-toggle-fx="stars" aria-label="Stars">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </button>
+                <button class="theme-btn" data-toggle-fx="confetti" aria-label="Confetti">
+                    <i class="fa-solid fa-gift"></i>
+                </button>
+                <button class="theme-btn" data-toggle-fx="embers" aria-label="Embers">
+                    <i class="fa-solid fa-fire"></i>
+                </button>
+                <button class="theme-btn" data-toggle-fx="colorshift" aria-label="Color Shift">
+                    <i class="fa-solid fa-palette"></i>
+                </button>
+                <button class="theme-btn" data-toggle-fx="frost" aria-label="Frost">
+                    <i class="fa-solid fa-snowflake"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Text Effects Toggles -->
+        <div class="control-group">
+            <span class="group-label">Text</span>
+            <div class="btn-row">
+                <button class="theme-btn" data-toggle-text="shimmer" aria-label="Shimmer">
+                    <i class="fa-solid fa-bolt"></i>
+                </button>
+                <button class="theme-btn" data-toggle-text="rainbow" aria-label="Rainbow">
+                    <i class="fa-solid fa-rainbow"></i>
+                </button>
+                <button class="theme-btn" data-toggle-text="glow" aria-label="Glow Pulse">
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+                <!-- Multi-color Bulb Effect -->
+                <div class="bulb-control-wrapper" style="position: relative;">
+                    <!-- Speed Slider (Vertical Tube) -->
+                    <div class="speed-slider-container">
+                        <input type="range" id="blinkSpeed" min="0.1" max="3" step="0.1" value="2" orient="vertical">
+                    </div>
+                    <button class="theme-btn" data-toggle-text="bulb" aria-label="Bulb Lights">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Toggle Button -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+        <i class="fa-solid fa-sliders"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

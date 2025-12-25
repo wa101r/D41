@@ -1,0 +1,919 @@
+:root {
+    /* Fonts */
+    --font-heading: 'Merienda', cursive;
+    --font-body: 'Outfit', sans-serif;
+
+    /* Transition Speeds */
+    --transition-slow: 0.8s ease-in-out;
+    --transition-fast: 0.3s ease;
+
+    /* Default Theme Variables (Winter) */
+    --primary-color: #a2d2ff;
+    --accent-color: #ffffff;
+    --text-color: #e0fbfc;
+    --glass-bg: rgba(10, 25, 47, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --btn-bg: rgba(255, 255, 255, 0.2);
+    --btn-hover: rgba(255, 255, 255, 0.4);
+    --btn-text: #fff;
+    --cta-color: #8ecae6;
+    --cta-text: #023047;
+}
+
+/* --- Theme Variables --- */
+
+/* Theme: Classic */
+[data-bg="classic"] {
+    --primary-color: #c1121f;
+    --accent-color: #fdf0d5;
+    --text-color: #fff;
+    --glass-bg: rgba(20, 10, 10, 0.6);
+    --glass-border: rgba(193, 18, 31, 0.3);
+    --btn-bg: rgba(193, 18, 31, 0.3);
+    --btn-hover: rgba(193, 18, 31, 0.6);
+    --btn-text: #fff;
+    --cta-color: #fdf0d5;
+    --cta-text: #c1121f;
+    --font-heading: 'Merienda', cursive;
+    --bg-image: url('bg-classic.jpg');
+    --bg-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
+}
+
+/* Theme: Winter */
+[data-bg="winter"] {
+    --primary-color: #a1c4fd;
+    --accent-color: #c2e9fb;
+    --font-heading: 'Merienda', cursive;
+    --bg-image: url('bg-winter.jpg');
+    --bg-overlay: linear-gradient(to bottom, rgba(0, 10, 30, 0.4), rgba(0, 20, 40, 0.6));
+    --text-color: #e0f7fa;
+    --glass-bg: rgba(161, 196, 253, 0.15);
+    --glass-border: rgba(194, 233, 251, 0.3);
+    --btn-bg: rgba(161, 196, 253, 0.2);
+    --btn-hover: rgba(161, 196, 253, 0.4);
+    --btn-text: #fff;
+    --cta-color: #c2e9fb;
+    --cta-text: #023047;
+}
+
+/* Theme: Warm */
+[data-bg="warm"] {
+    --primary-color: #fb8500;
+    --accent-color: #ffb703;
+    --text-color: #ffedd8;
+    --bg-image: url('bg-warm.jpg');
+    --glass-bg: rgba(60, 30, 10, 0.7);
+    --glass-border: rgba(255, 183, 3, 0.3);
+    --btn-bg: rgba(255, 140, 0, 0.3);
+    --btn-hover: rgba(255, 165, 0, 0.5);
+    --btn-text: #fff;
+    --cta-color: #ffb703;
+    --cta-text: #3c1e0a;
+    --bg-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+}
+
+/* Specific Cartoon Mode Styles */
+
+/* Adjust snow for cartoon? Make it bigger/flatter? */
+[data-bg="cartoon"] #snowCanvas {
+    filter: contrast(1.5);
+    /* Sharpen snow to look more like paint dots */
+    opacity: 0.8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    font-family: var(--font-body);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    /* Fallback */
+    color: var(--text-color);
+    transition: background 0.5s ease;
+}
+
+/* Background Layer */
+.bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-image: var(--bg-image);
+    /* Ensure this connects */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out;
+}
+
+/* Background Management */
+.bg-layer {
+    position: fixed;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out, transform 6s ease-in-out;
+    /* Slight zoom effect */
+    z-index: 0;
+    transform: scale(1);
+}
+
+.bg-winter {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('bg-winter.jpg');
+    background-color: #0d1b2a;
+    /* Fallback */
+}
+
+.bg-classic {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('bg-classic.jpg');
+    background-color: #0f3c2b;
+    /* Fallback */
+}
+
+.bg-warm {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('bg-warm.jpg');
+    background-color: #3f1d0b;
+    /* Fallback */
+}
+
+/* Background Video */
+.bg-video {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    /* Behind images by default, handled by opacity */
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.bg-video.active {
+    opacity: 1;
+    z-index: 2;
+    /* On top of static images but below snow/text */
+}
+
+/* Control Visibility based on Theme */
+[data-bg="winter"] .bg-winter,
+[data-bg="classic"] .bg-classic,
+[data-bg="warm"] .bg-warm {
+    opacity: 1;
+    transform: scale(1.05);
+    /* Increased zoom for depth */
+    z-index: 1;
+}
+
+/* Hide images when video is active */
+body.video-mode .bg-layer {
+    opacity: 0 !important;
+}
+
+/* Dark Overlay for Video (ดำโปร่งใส) */
+.video-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    /* 35% ความโปร่งใส */
+    z-index: 3;
+    /* อยู่บน Video แต่ใต้ Snow/Text */
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+body.video-mode .video-overlay {
+    opacity: 1;
+}
+
+/* Christmas String Lights */
+.christmas-lights {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 50;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-top: 5px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.christmas-lights.bottom {
+    top: auto;
+    bottom: -10px;
+    /* Slight overlap with bottom edge */
+    transform: rotate(180deg);
+    z-index: 50;
+    /* Ensure on top of almost everything */
+    pointer-events: none;
+    /* Let clicks pass through to controls */
+}
+
+.christmas-lights.active {
+    opacity: 1;
+}
+
+/* Wire */
+.christmas-lights::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #222;
+    z-index: -1;
+}
+
+/* Light Bulb */
+.light-bulb {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.light-bulb .socket {
+    width: 8px;
+    height: 6px;
+    background: #444;
+    border-radius: 2px 2px 0 0;
+}
+
+.light-bulb .bulb {
+    width: 12px;
+    height: 18px;
+    border-radius: 50% 50% 45% 45%;
+    animation: bulb-glow 2s ease-in-out infinite alternate;
+}
+
+/* Color Variations */
+.light-bulb:nth-child(4n+1) .bulb {
+    background: #ff3333;
+    box-shadow: 0 0 10px #ff3333, 0 0 20px #ff3333;
+}
+
+.light-bulb:nth-child(4n+2) .bulb {
+    background: #33ff33;
+    box-shadow: 0 0 10px #33ff33, 0 0 20px #33ff33;
+}
+
+.light-bulb:nth-child(4n+3) .bulb {
+    background: #ffcc00;
+    box-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00;
+}
+
+.light-bulb:nth-child(4n+4) .bulb {
+    background: #3399ff;
+    box-shadow: 0 0 10px #3399ff, 0 0 20px #3399ff;
+}
+
+/* Staggered Animation */
+.light-bulb:nth-child(odd) .bulb {
+    animation-delay: 0s;
+}
+
+.light-bulb:nth-child(even) .bulb {
+    animation-delay: 1s;
+}
+
+@keyframes bulb-glow {
+    0% {
+        opacity: 0.5;
+        filter: brightness(0.7);
+    }
+
+    100% {
+        opacity: 1;
+        filter: brightness(1.3);
+    }
+}
+
+/* ============================================
+   EXTRA TOGGLEABLE EFFECTS
+   ============================================ */
+
+/* Base hidden state for all effects */
+.effect-stars,
+.effect-confetti,
+.effect-embers,
+.effect-colorshift,
+.effect-frost {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.effect-stars.active,
+.effect-confetti.active,
+.effect-embers.active,
+.effect-colorshift.active,
+.effect-frost.active {
+    opacity: 1;
+}
+
+/* 1. Floating Stars / Sparkles */
+.effect-stars .star {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #fff, 0 0 20px rgba(255, 255, 255, 0.5);
+    animation: star-float 4s ease-in-out infinite;
+}
+
+@keyframes star-float {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-10vh) scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* 2. Confetti */
+.effect-confetti .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: confetti-fall 5s linear infinite;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0.5;
+    }
+}
+
+/* 3. Floating Embers */
+.effect-embers .ember {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ff6600;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #ff6600, 0 0 12px #ff3300;
+    animation: ember-rise 3s ease-out infinite;
+}
+
+@keyframes ember-rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-200px) scale(0);
+        opacity: 0;
+    }
+}
+
+/* 4. Ambient Color Shift */
+.effect-colorshift {
+    background: linear-gradient(135deg,
+            rgba(255, 0, 100, 0.1),
+            rgba(0, 200, 255, 0.1),
+            rgba(255, 200, 0, 0.1));
+    background-size: 400% 400%;
+    animation: color-shift 10s ease infinite;
+    mix-blend-mode: overlay;
+}
+
+@keyframes color-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 5. Frost Vignette */
+.effect-frost {
+    background: radial-gradient(ellipse at center,
+            transparent 30%,
+            rgba(200, 230, 255, 0.3) 70%,
+            rgba(150, 200, 255, 0.6) 100%);
+    box-shadow: inset 0 0 100px rgba(255, 255, 255, 0.3);
+}
+
+/* Cinematic Transition Overlay */
+.transition-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(0px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 999;
+    transition: all 0.6s ease;
+}
+
+.transition-overlay.active {
+    backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 1;
+}
+
+/* Canvas Snowfall */
+#snowCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Glass Card */
+.glass-container {
+    /* Transparent Container (Frame Removed) */
+    position: relative;
+    z-index: 10;
+    background: transparent;
+    border: none;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: none;
+    backdrop-filter: none;
+    max-width: 90%;
+    width: 600px;
+    transform: translateY(0);
+    animation: floatCard 6s ease-in-out infinite;
+}
+
+@keyframes floatCard {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Logo Styles */
+.logo {
+    max-width: 550px;
+    display: block;
+    margin: 0 auto 1.5rem auto;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+    transition: filter var(--transition-slow);
+}
+
+[data-bg="winter"] .logo {
+    filter: drop-shadow(0 0 25px rgba(162, 210, 255, 0.6));
+}
+
+[data-bg="classic"] .logo {
+    filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.5));
+}
+
+[data-bg="warm"] .logo {
+    filter: drop-shadow(0 0 25px rgba(255, 183, 3, 0.6));
+}
+
+
+/* Typography & Content */
+.content-header {
+    margin-bottom: 2.5rem;
+}
+
+.greeting-text {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to bottom, #fff, var(--primary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px var(--primary-color));
+}
+
+.sub-greeting {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.message {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================
+   TEXT EFFECTS (Toggleable)
+   ============================================ */
+
+/* 1. Shimmer Effect */
+.greeting-text.shimmer,
+.sub-greeting.shimmer {
+    background: linear-gradient(110deg,
+            var(--accent-color) 0%,
+            #fff 20%,
+            var(--accent-color) 40%,
+            #fff 60%,
+            var(--accent-color) 80%,
+            #fff 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: text-shimmer 3s linear infinite;
+}
+
+@keyframes text-shimmer {
+    0% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: -100% 50%;
+    }
+}
+
+/* 2. Rainbow Gradient */
+.greeting-text.rainbow,
+.sub-greeting.rainbow {
+    background: linear-gradient(90deg,
+            #ff0000, #ff7700, #ffff00, #00ff00, #0077ff, #8800ff, #ff0088, #ff0000);
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-shift 5s linear infinite;
+}
+
+@keyframes rainbow-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 400% 50%;
+    }
+}
+
+/* 3. Glow Pulse */
+.greeting-text.glow-pulse,
+.sub-greeting.glow-pulse {
+    animation: glow-breathe 2s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 5px var(--primary-color));
+        opacity: 0.9;
+    }
+
+    50% {
+        filter: drop-shadow(0 0 30px var(--primary-color)) drop-shadow(0 0 60px var(--accent-color));
+        opacity: 1;
+    }
+}
+
+/* 4. Multi-color Bulb Effect (HIGH SPECIFICITY to override Themes) */
+.greeting-text.bulb,
+.sub-greeting.bulb,
+body[data-bg] .greeting-text.bulb,
+body[data-bg] .sub-greeting.bulb {
+    /* Reset Theme Styles forcefully */
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    text-shadow: none !important;
+    -webkit-text-stroke: 0 !important;
+    animation: none !important;
+    color: transparent;
+    /* Let spans handle color */
+}
+
+/* Pseudo-elements cleanup for Winter theme */
+.greeting-text.bulb::before,
+.greeting-text.bulb::after,
+.sub-greeting.bulb::before {
+    display: none !important;
+}
+
+.greeting-text.bulb span,
+.sub-greeting.bulb span {
+    display: inline-block;
+    text-shadow: 0 0 5px currentColor;
+    /* Reduced Glow */
+    animation: bulb-blink var(--blink-speed, 2s) infinite;
+    font-weight: 800;
+    opacity: 0.9;
+}
+
+/* Speed Slider Container (Vertical Tube) */
+.speed-slider-container {
+    position: absolute;
+    bottom: 100%;
+    /* Move it down to touch the button area */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    /* Wider hit area for easier access */
+    height: 100px;
+    background: transparent;
+    /* Container is transparent hit area */
+    padding-bottom: 20px;
+    /* Safe space bridge to button */
+    display: none;
+    justify-content: center;
+    align-items: flex-end;
+    /* Align slider to bottom of hit area */
+    z-index: 100;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* The visible tube part */
+.speed-slider-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 80px;
+    /* Actual visual height */
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: -1;
+}
+
+.bulb-control-wrapper:hover .speed-slider-container,
+.theme-btn[data-toggle-text="bulb"].active~.speed-slider-container,
+.speed-slider-container:hover {
+    /* Keep showing if hovering slider itself */
+    display: flex;
+}
+
+/* Custom Range Input (Vertical) */
+#blinkSpeed {
+    writing-mode: bt-lr;
+    /* IE/Edge */
+    -webkit-appearance: slider-vertical;
+    /* Webkit */
+    width: 6px;
+    height: 100%;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+/* Alternating Colors */
+.greeting-text.bulb span:nth-child(4n+1),
+.sub-greeting.bulb span:nth-child(4n+1) {
+    color: #ff0000 !important;
+}
+
+/* Red */
+.greeting-text.bulb span:nth-child(4n+2),
+.sub-greeting.bulb span:nth-child(4n+2) {
+    color: #00ff00 !important;
+}
+
+/* Green */
+.greeting-text.bulb span:nth-child(4n+3),
+.sub-greeting.bulb span:nth-child(4n+3) {
+    color: #ffff00 !important;
+}
+
+/* Yellow */
+.greeting-text.bulb span:nth-child(4n+4),
+.sub-greeting.bulb span:nth-child(4n+4) {
+    color: #00ccff !important;
+}
+
+/* Blue */
+
+/* Random Blinking Logic */
+@keyframes bulb-blink {
+
+    0%,
+    40%,
+    100% {
+        opacity: 0.9;
+        filter: brightness(1.0) drop-shadow(0 0 4px currentColor);
+    }
+
+    20% {
+        opacity: 0.3;
+        filter: brightness(0.5) drop-shadow(none);
+    }
+}
+
+/* Randomize Timing manually for more chaotic feel */
+.greeting-text.bulb span:nth-child(odd) {
+    animation-duration: 1.5s;
+    animation-delay: 0.2s;
+}
+
+.greeting-text.bulb span:nth-child(3n) {
+    animation-duration: 2.2s;
+    animation-delay: 0.5s;
+}
+
+.greeting-text.bulb span:nth-child(5n) {
+    animation-duration: 3s;
+    animation-delay: 0s;
+}
+
+.greeting-text.bulb span:nth-child(7n) {
+    animation: none;
+    opacity: 1;
+}
+
+/* Some always on */
+
+/* Theme Switcher */
+.theme-controls {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    /* Default Open */
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 10px 25px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.3s ease;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.theme-controls.hidden {
+    transform: translateX(-50%) translateY(150%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 101;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1) rotate(90deg);
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.group-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+}
+
+.btn-row {
+    display: flex;
+    gap: 10px;
+}
+
+.divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.theme-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theme-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.theme-btn.active {
+    background: var(--btn-bg);
+    color: #fff;
+    /* Always white text for active/better contrast */
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px var(--glass-border);
+}
+
+/* Tooltip removed - icons + labels are clearer */
+.tooltip {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .glass-container {
+        padding: 2rem;
+        width: 90%;
+    }
+
+    .greeting-text {
+        font-size: 2.5rem;
+    }
+
+    .sub-greeting {
+        font-size: 1.4rem;
+    }
+}
